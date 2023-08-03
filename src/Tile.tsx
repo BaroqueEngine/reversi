@@ -1,16 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import Piece from "./Piece";
+import { useState } from "react";
 
 interface Props {
   x: number;
   y: number;
   size: number;
-  selectTile: (x: number, y: number) => void;
 }
 
-function Tile({ x, y, size, selectTile }: Props) {
-  const onClick = () => {
-    selectTile(x, y);
+function Tile({ x, y, size }: Props) {
+  const [value, setValue] = useState(0);
+
+  const onClickHandler = () => {
+    setValue(2);
   };
 
   return (
@@ -23,8 +26,10 @@ function Tile({ x, y, size, selectTile }: Props) {
         height: size,
       }}
       className="tile"
-      onClick={onClick}
-    ></div>
+      onClick={onClickHandler}
+    >
+      <Piece value={value} />
+    </div>
   );
 }
 

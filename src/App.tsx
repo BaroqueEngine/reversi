@@ -1,9 +1,10 @@
 import "./App.css";
+import Board from "./Board";
 import Piece from "./Piece";
 import Tile from "./Tile";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const SIZE = 8;
@@ -12,18 +13,25 @@ function App() {
   const WHITE = 2;
 
   const [board, setBoard] = useState<number[]>([]);
-  for (let y = 0; y < SIZE * SIZE; y++) {
-    board[y] = NONE;
-  }
 
   const setPiece = (board: number[], x: number, y: number, color: number) => {
     board[y * SIZE + x] = color;
   };
 
-  setPiece(board, 3, 3, WHITE);
-  setPiece(board, 4, 4, WHITE);
-  setPiece(board, 3, 4, BLACK);
-  setPiece(board, 4, 3, BLACK);
+  const init = () => {
+    for (let y = 0; y < SIZE * SIZE; y++) {
+      board[y] = NONE;
+    }
+
+    setPiece(board, 3, 3, WHITE);
+    setPiece(board, 4, 4, WHITE);
+    setPiece(board, 3, 4, BLACK);
+    setPiece(board, 4, 3, BLACK);
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
 
   const createTiles = () => {
     return [...Array(SIZE * SIZE)].map((_, i) => {
@@ -39,8 +47,7 @@ function App() {
     const newBoard = [...board];
     newBoard[0] = WHITE;
     // setPiece(newBoard, x, y, WHITE);
-    setBoard([2]);
-    alert(board[0]);
+    // setBoard(board.map((v, i) => 0));
   };
 
   const createPieces = (board: number[]) => {
@@ -67,8 +74,7 @@ function App() {
           <h1>Reversi</h1>
         </div>
         <div className="right">
-          <div className="board">{createTiles()}</div>
-          <div css={pieces}>{createPieces(board)}</div>
+          <Board />
         </div>
       </div>
     </>
