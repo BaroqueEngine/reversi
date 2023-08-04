@@ -14,12 +14,15 @@ interface Props {
 function Tile({ x, y, size }: Props) {
   const [turn, setTurn] = useAtom(turnAtom);
   const [board, setBoard] = useAtom(boardAtom);
+  const index = y * Size + x;
+  const color = board[index];
+  const setColor = (color: number) => (board[index] = color);
 
   const onClickHandler = () => {
-    if (board[y * Size + x] !== PieceColor.None) {
+    if (color !== PieceColor.None) {
       return;
     }
-    board[y * Size + x] = turn;
+    setColor(turn);
     setBoard(board.slice());
     setTurn(turn === PieceColor.Black ? PieceColor.White : PieceColor.Black);
   };
