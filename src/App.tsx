@@ -1,7 +1,6 @@
 import "./App.css";
 import Board from "./Board";
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 
 function App() {
   return (
@@ -19,7 +18,3 @@ function App() {
 }
 
 export default App;
-
-const pieces = css`
-  position: relative;
-`;

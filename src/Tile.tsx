@@ -4,6 +4,7 @@ import Piece from "./Piece";
 import { useState } from "react";
 import { useAtom } from "jotai";
 import { turnAtom } from "./Atoms";
+import { PieceColor } from "./Data";
 
 interface Props {
   x: number;
@@ -16,8 +17,11 @@ function Tile({ x, y, size }: Props) {
   const [turn, setTurn] = useAtom(turnAtom);
 
   const onClickHandler = () => {
+    if (value !== PieceColor.None) {
+      return;
+    }
     setValue(turn);
-    setTurn(turn === 1 ? 2 : 1);
+    setTurn(turn === PieceColor.Black ? PieceColor.White : PieceColor.Black);
   };
 
   return (
