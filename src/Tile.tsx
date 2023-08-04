@@ -1,10 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import Piece from "./Piece";
-import { useState } from "react";
 import { useAtom } from "jotai";
-import { turnAtom } from "./Atoms";
-import { PieceColor } from "./Data";
+import { boardAtom, turnAtom } from "./Atoms";
+import { PieceColor, Size } from "./Data";
 
 interface Props {
   x: number;
@@ -13,14 +12,15 @@ interface Props {
 }
 
 function Tile({ x, y, size }: Props) {
-  const [value, setValue] = useState(0);
   const [turn, setTurn] = useAtom(turnAtom);
+  const [board, setBoard] = useAtom(boardAtom);
 
   const onClickHandler = () => {
-    if (value !== PieceColor.None) {
+    if (board[y * Size + x] !== PieceColor.None) {
       return;
     }
-    setValue(turn);
+    board[y * Size + x] = turn;
+    setBoard(board.slice());
     setTurn(turn === PieceColor.Black ? PieceColor.White : PieceColor.Black);
   };
 
@@ -36,7 +36,7 @@ function Tile({ x, y, size }: Props) {
       className="tile"
       onClick={onClickHandler}
     >
-      <Piece value={value} />
+      <Piece value={board[y * Size + x]} />
     </div>
   );
 }

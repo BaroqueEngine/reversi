@@ -3,3 +3,5 @@ export const PieceColor = {
   Black: 1,
   White: 2,
 };
+
+export const Size = 8;
