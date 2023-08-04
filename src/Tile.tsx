@@ -2,6 +2,8 @@
 import { css } from "@emotion/react";
 import Piece from "./Piece";
 import { useState } from "react";
+import { useAtom } from "jotai";
+import { turnAtom } from "./Atoms";
 
 interface Props {
   x: number;
@@ -11,9 +13,11 @@ interface Props {
 
 function Tile({ x, y, size }: Props) {
   const [value, setValue] = useState(0);
+  const [turn, setTurn] = useAtom(turnAtom);
 
   const onClickHandler = () => {
-    setValue(2);
+    setValue(turn);
+    setTurn(turn === 1 ? 2 : 1);
   };
 
   return (
