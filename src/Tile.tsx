@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import Piece from "./Piece";
 import { useAtom } from "jotai";
-import { boardAtom, turnAtom } from "./Atoms";
+import { boardAtom, isPlayingAtom, turnAtom } from "./Atoms";
 import { PieceColor, Size } from "./Data";
 
 interface Props {
@@ -14,11 +14,15 @@ interface Props {
 function Tile({ x, y, size }: Props) {
   const [turn, setTurn] = useAtom(turnAtom);
   const [board, setBoard] = useAtom(boardAtom);
+  const [isPlaying] = useAtom(isPlayingAtom);
   const index = y * Size + x;
   const color = board[index];
   const setColor = (color: number) => (board[index] = color);
 
   const onClickHandler = () => {
+    if (!isPlaying) {
+      return;
+    }
     if (color !== PieceColor.None) {
       return;
     }
