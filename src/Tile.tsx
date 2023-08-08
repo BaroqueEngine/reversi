@@ -4,6 +4,7 @@ import Piece from "./Piece";
 import { useAtom } from "jotai";
 import { boardAtom, isPlayingAtom, turnAtom } from "./Atoms";
 import { PieceColor, Size } from "./Data";
+import { flip, flippable, oppColor, printBoard } from "./Rule";
 
 interface Props {
   x: number;
@@ -26,9 +27,13 @@ function Tile({ x, y, size }: Props) {
     if (color !== PieceColor.None) {
       return;
     }
-    setColor(turn);
-    setBoard(board.slice());
-    setTurn(turn === PieceColor.Black ? PieceColor.White : PieceColor.Black);
+    const flipPos = flippable(x, y, turn, board);
+    if (flipPos.length > 0) {
+      setColor(turn);
+      const newBoard = flip(board, turn, flipPos);
+      setBoard(newBoard);
+      setTurn(turn === PieceColor.Black ? PieceColor.White : PieceColor.Black);
+    }
   };
 
   return (

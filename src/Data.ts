@@ -5,3 +5,8 @@ export const PieceColor = {
 };
 
 export const Size = 8;
+
+export type Point = {
+  x: number;
+  y: number;
+};
