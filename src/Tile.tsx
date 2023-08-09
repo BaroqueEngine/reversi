@@ -4,7 +4,7 @@ import Piece from "./Piece";
 import { useAtom } from "jotai";
 import { boardAtom, isPlayingAtom, turnAtom } from "./Atoms";
 import { PieceColor, Size } from "./Data";
-import { flip, flippable, oppColor, printBoard } from "./Rule";
+import { flip, flippable } from "./Rule";
 
 interface Props {
   x: number;
