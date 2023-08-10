@@ -16,6 +16,7 @@ const container = css`
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 90%;
+  transform: translate(5%, 5%);
 `;
