@@ -1,14 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { Colors } from "./Data";
 
 type Prop = {
   value: number;
 };
 
 function Piece({ value }: Prop) {
-  const colors = ["transparent", "black", "white"];
-
-  return <div css={container} style={{ backgroundColor: colors[value] }}></div>;
+  return <div css={container} style={{ backgroundColor: Colors[value] }}></div>;
 }
 
 export default Piece;

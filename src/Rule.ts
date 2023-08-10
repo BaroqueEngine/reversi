@@ -1,12 +1,19 @@
 import { PieceColor, Point, Size } from "./Data";
 
-export const startGame = (setBoard: Function, setIsPlaying: Function) => {
-  const newBoard = [...Array(Size * Size).fill(0)];
+export const startGame = (
+  setTurn: Function,
+  setBoard: Function,
+  setPieces: Function,
+  setIsPlaying: Function
+) => {
+  const newBoard = [...Array(Size * Size).fill(PieceColor.None)];
   newBoard[3 * Size + 3] = PieceColor.White;
   newBoard[4 * Size + 4] = PieceColor.White;
   newBoard[3 * Size + 4] = PieceColor.Black;
   newBoard[4 * Size + 3] = PieceColor.Black;
 
+  setTurn(PieceColor.Black);
+  setPieces([2, 2]);
   setBoard(newBoard);
   setIsPlaying(true);
 };
@@ -52,12 +59,20 @@ export const flippable = (
 export const flip = (
   board: number[],
   color: number,
-  posGroup: Point[]
+  posGroup: Point[],
+  pieces: number[],
+  setPieces: Function
 ): number[] => {
   const newBoard = board.slice();
+  let diff: number[] = [0, 0];
+  diff[color] += 1;
   for (const pos of posGroup) {
     newBoard[pos.y * Size + pos.x] = color;
+    diff[color] += 1;
+    diff[oppColor(color)] -= 1;
   }
+
+  setPieces([pieces[0] + diff[0], pieces[1] + diff[1]]);
 
   return newBoard;
 };

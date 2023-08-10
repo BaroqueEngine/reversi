@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import Piece from "./Piece";
 import { useAtom } from "jotai";
-import { boardAtom, isPlayingAtom, turnAtom } from "./Atoms";
+import { boardAtom, isPlayingAtom, piecesAtom, turnAtom } from "./Atoms";
 import { PieceColor, Size } from "./Data";
 import { flip, flippable } from "./Rule";
 
@@ -16,6 +16,7 @@ function Tile({ x, y, size }: Props) {
   const [turn, setTurn] = useAtom(turnAtom);
   const [board, setBoard] = useAtom(boardAtom);
   const [isPlaying] = useAtom(isPlayingAtom);
+  const [pieces, setPieces] = useAtom(piecesAtom);
   const index = y * Size + x;
   const color = board[index];
   const setColor = (color: number) => (board[index] = color);
@@ -30,7 +31,7 @@ function Tile({ x, y, size }: Props) {
     const flipPos = flippable(x, y, turn, board);
     if (flipPos.length > 0) {
       setColor(turn);
-      const newBoard = flip(board, turn, flipPos);
+      const newBoard = flip(board, turn, flipPos, pieces, setPieces);
       setBoard(newBoard);
       setTurn(turn === PieceColor.Black ? PieceColor.White : PieceColor.Black);
     }
