@@ -77,6 +77,26 @@ export const flip = (
   return newBoard;
 };
 
+export const canPutPosition = (color: number, board: number[]): Point[] => {
+  let points: Point[] = [];
+
+  for (let i = 0; i < Size * Size; i++) {
+    if (board[i] !== PieceColor.None) {
+      continue;
+    }
+    const x = i % Size;
+    const y = Math.floor(i / Size);
+
+    points = points.concat(flippable(x, y, color, board));
+  }
+
+  let indexes = points.map((point) => point.y * Size + point.x);
+  indexes = Array.from(new Set(indexes));
+  return indexes.map((i) => {
+    return { x: i % Size, y: Math.floor(i / Size) };
+  });
+};
+
 export const printBoard = (board: number[]): void => {
   const colors = ["_", "#", "."];
   for (let y = 0; y < Size; y++) {
