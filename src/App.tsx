@@ -1,11 +1,12 @@
 import { useAtom } from "jotai";
 import "./App.css";
 import Board from "./Board";
-import { changeTurn, flippable, getCanPutPosition, startGame } from "./Rule";
+import { changeTurn, getCanPutPosition, startGame } from "./Rule";
 import {
   boardAtom,
   canPutPositionAtom,
   isPlayingAtom,
+  passCountAtom,
   piecesAtom,
   turnAtom,
 } from "./Atoms";
@@ -19,6 +20,7 @@ function App() {
   const [pieces, setPieces] = useAtom(piecesAtom);
   const [turn, setTurn] = useAtom(turnAtom);
   const [_canPutPosition, setCanPutPosition] = useAtom(canPutPositionAtom);
+  const [passCount, setPassCount] = useAtom(passCountAtom);
 
   return (
     <>
@@ -59,7 +61,10 @@ function App() {
           </button>
           <button
             css={startGameButton}
-            onClick={() => changeTurn(board, turn, setTurn, setCanPutPosition)}
+            onClick={() => {
+              setPassCount(passCount + 1);
+              changeTurn(board, turn, setTurn, setCanPutPosition);
+            }}
           >
             PASS
           </button>

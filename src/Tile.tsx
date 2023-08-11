@@ -6,17 +6,12 @@ import {
   boardAtom,
   canPutPositionAtom,
   isPlayingAtom,
+  passCountAtom,
   piecesAtom,
   turnAtom,
 } from "./Atoms";
-import { PieceColor, Size } from "./Data";
-import {
-  changeTurn,
-  flip,
-  flippable,
-  getCanPutPosition,
-  pointToIndex,
-} from "./Rule";
+import { PieceColor } from "./Data";
+import { changeTurn, flip, flippable, pointToIndex } from "./Rule";
 
 interface Props {
   x: number;
@@ -30,6 +25,7 @@ function Tile({ x, y, size }: Props) {
   const [isPlaying] = useAtom(isPlayingAtom);
   const [pieces, setPieces] = useAtom(piecesAtom);
   const [canPutPosition, setCanPutPosition] = useAtom(canPutPositionAtom);
+  const [_oassCount, setPassCount] = useAtom(passCountAtom);
   const index = pointToIndex({ x, y });
   const color = board[index];
 
@@ -45,6 +41,7 @@ function Tile({ x, y, size }: Props) {
       board[index] = turn;
       const newBoard = flip(board, turn, flipPos, pieces, setPieces);
       setBoard(newBoard);
+      setPassCount(0);
       changeTurn(newBoard, turn, setTurn, setCanPutPosition);
     }
   };
