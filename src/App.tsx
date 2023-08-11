@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import "./App.css";
 import Board from "./Board";
-import { startGame } from "./Rule";
+import { getCanPutPosition, startGame } from "./Rule";
 import {
   boardAtom,
   canPutPositionAtom,
@@ -14,7 +14,7 @@ import { PieceColor } from "./Data";
 /** @jsxImportSource @emotion/react */
 
 function App() {
-  const [_board, setBoard] = useAtom(boardAtom);
+  const [board, setBoard] = useAtom(boardAtom);
   const [_isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
   const [pieces, setPieces] = useAtom(piecesAtom);
   const [_turn, setTurn] = useAtom(turnAtom);
@@ -73,8 +73,8 @@ function App() {
             <div css={row}>
               <div>Mobility</div>
               <div>&gt;</div>
-              <div>0</div>
-              <div>0</div>
+              <div>{getCanPutPosition(PieceColor.White, board).length}</div>
+              <div>{getCanPutPosition(PieceColor.Black, board).length}</div>
             </div>
           </div>
         </div>
