@@ -8,10 +8,10 @@ export const startGame = (
   setCanPutPosition: Function
 ) => {
   const newBoard = [...Array(Size * Size).fill(PieceColor.None)];
-  newBoard[3 * Size + 3] = PieceColor.White;
-  newBoard[4 * Size + 4] = PieceColor.White;
-  newBoard[3 * Size + 4] = PieceColor.Black;
-  newBoard[4 * Size + 3] = PieceColor.Black;
+  newBoard[pointToIndex({ x: 3, y: 3 })] = PieceColor.White;
+  newBoard[pointToIndex({ x: 4, y: 4 })] = PieceColor.White;
+  newBoard[pointToIndex({ x: 3, y: 4 })] = PieceColor.Black;
+  newBoard[pointToIndex({ x: 4, y: 3 })] = PieceColor.Black;
 
   const turn = PieceColor.Black;
   const canPutPosition = [...Array(Size * Size).fill(false)];
@@ -34,6 +34,14 @@ export const oppColor = (color: number): number => {
   return color === PieceColor.White ? PieceColor.Black : PieceColor.White;
 };
 
+export const indexToPoint = (index: number): Point => {
+  return { x: index % Size, y: Math.floor(index / Size) };
+};
+
+export const pointToIndex = (point: Point): number => {
+  return point.y * Size + point.x;
+};
+
 export const flippable = (
   x: number,
   y: number,
@@ -42,7 +50,7 @@ export const flippable = (
 ): Point[] => {
   const dx = [-1, 1, 0, 0, -1, 1, -1, 1];
   const dy = [0, 0, -1, 1, -1, -1, 1, 1];
-  const get = (x: number, y: number): number => board[y * Size + x];
+  const get = (x: number, y: number): number => board[pointToIndex({ x, y })];
 
   let ret: Point[] = [];
   for (let i = 0; i < 8; i++) {
@@ -92,8 +100,7 @@ export const getCanPutPosition = (color: number, board: number[]): number[] => {
     if (board[i] !== PieceColor.None) {
       continue;
     }
-    const x = i % Size;
-    const y = Math.floor(i / Size);
+    const { x, y } = indexToPoint(i);
 
     if (flippable(x, y, color, board).length > 0) {
       indexes = indexes.concat(i);
@@ -108,7 +115,7 @@ export const printBoard = (board: number[]): void => {
   for (let y = 0; y < Size; y++) {
     let line = "";
     for (let x = 0; x < Size; x++) {
-      line += colors[board[y * Size + x]];
+      line += colors[board[pointToIndex({ x, y })]];
     }
     console.log(line);
   }

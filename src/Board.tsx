@@ -1,3 +1,4 @@
+import { indexToPoint } from "./Rule";
 import Tile from "./Tile";
 
 function Board() {
@@ -7,8 +8,7 @@ function Board() {
     <>
       <div style={{ position: "relative" }}>
         {[...Array(SIZE * SIZE)].map((_, i) => {
-          const x = i % SIZE;
-          const y = Math.floor(i / SIZE);
+          const { x, y } = indexToPoint(i);
           return <Tile key={i} x={x} y={y} size={45}></Tile>;
         })}
       </div>

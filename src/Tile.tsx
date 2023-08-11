@@ -10,7 +10,7 @@ import {
   turnAtom,
 } from "./Atoms";
 import { PieceColor, Size } from "./Data";
-import { flip, flippable, getCanPutPosition } from "./Rule";
+import { flip, flippable, getCanPutPosition, pointToIndex } from "./Rule";
 
 interface Props {
   x: number;
@@ -24,7 +24,7 @@ function Tile({ x, y, size }: Props) {
   const [isPlaying] = useAtom(isPlayingAtom);
   const [pieces, setPieces] = useAtom(piecesAtom);
   const [canPutPosition, setCanPutPosition] = useAtom(canPutPositionAtom);
-  const index = y * Size + x;
+  const index = pointToIndex({ x, y });
   const color = board[index];
   const setColor = (color: number) => (board[index] = color);
 
@@ -54,7 +54,7 @@ function Tile({ x, y, size }: Props) {
   };
 
   const css = [container];
-  if (canPutPosition[y * Size + x]) {
+  if (canPutPosition[pointToIndex({ x, y })]) {
     css.push(selected);
   }
 
@@ -70,7 +70,7 @@ function Tile({ x, y, size }: Props) {
       className="tile"
       onClick={onClickHandler}
     >
-      <Piece value={board[y * Size + x]} />
+      <Piece value={board[pointToIndex({ x, y })]} />
     </div>
   );
 }
