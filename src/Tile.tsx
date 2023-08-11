@@ -10,7 +10,13 @@ import {
   turnAtom,
 } from "./Atoms";
 import { PieceColor, Size } from "./Data";
-import { flip, flippable, getCanPutPosition, pointToIndex } from "./Rule";
+import {
+  changeTurn,
+  flip,
+  flippable,
+  getCanPutPosition,
+  pointToIndex,
+} from "./Rule";
 
 interface Props {
   x: number;
@@ -26,7 +32,6 @@ function Tile({ x, y, size }: Props) {
   const [canPutPosition, setCanPutPosition] = useAtom(canPutPositionAtom);
   const index = pointToIndex({ x, y });
   const color = board[index];
-  const setColor = (color: number) => (board[index] = color);
 
   const onClickHandler = () => {
     if (!isPlaying) {
@@ -37,19 +42,10 @@ function Tile({ x, y, size }: Props) {
     }
     const flipPos = flippable(x, y, turn, board);
     if (flipPos.length > 0) {
-      setColor(turn);
+      board[index] = turn;
       const newBoard = flip(board, turn, flipPos, pieces, setPieces);
       setBoard(newBoard);
-
-      const nextTurn =
-        turn === PieceColor.Black ? PieceColor.White : PieceColor.Black;
-      setTurn(nextTurn);
-
-      const canPutPosition = [...Array(Size * Size).fill(false)];
-      for (const index of getCanPutPosition(nextTurn, newBoard)) {
-        canPutPosition[index] = true;
-      }
-      setCanPutPosition(canPutPosition);
+      changeTurn(newBoard, turn, setTurn, setCanPutPosition);
     }
   };
 

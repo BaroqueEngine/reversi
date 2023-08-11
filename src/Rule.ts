@@ -110,6 +110,22 @@ export const getCanPutPosition = (color: number, board: number[]): number[] => {
   return Array.from(new Set(indexes));
 };
 
+export const changeTurn = (
+  board: number[],
+  turn: number,
+  setTurn: Function,
+  setCanPutPosition: Function
+): void => {
+  const nextTurn = oppColor(turn);
+  setTurn(nextTurn);
+
+  const canPutPosition = [...Array(Size * Size).fill(false)];
+  for (const index of getCanPutPosition(nextTurn, board)) {
+    canPutPosition[index] = true;
+  }
+  setCanPutPosition(canPutPosition);
+};
+
 export const printBoard = (board: number[]): void => {
   const colors = ["_", "#", "."];
   for (let y = 0; y < Size; y++) {

@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import "./App.css";
 import Board from "./Board";
-import { getCanPutPosition, startGame } from "./Rule";
+import { changeTurn, flippable, getCanPutPosition, startGame } from "./Rule";
 import {
   boardAtom,
   canPutPositionAtom,
@@ -17,8 +17,8 @@ function App() {
   const [board, setBoard] = useAtom(boardAtom);
   const [_isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
   const [pieces, setPieces] = useAtom(piecesAtom);
-  const [_turn, setTurn] = useAtom(turnAtom);
-  const [_canPutPosition, setCanPutPositionAtom] = useAtom(canPutPositionAtom);
+  const [turn, setTurn] = useAtom(turnAtom);
+  const [_canPutPosition, setCanPutPosition] = useAtom(canPutPositionAtom);
 
   return (
     <>
@@ -51,11 +51,17 @@ function App() {
                 setBoard,
                 setPieces,
                 setIsPlaying,
-                setCanPutPositionAtom
+                setCanPutPosition
               )
             }
           >
             Start Game
+          </button>
+          <button
+            css={startGameButton}
+            onClick={() => changeTurn(board, turn, setTurn, setCanPutPosition)}
+          >
+            PASS
           </button>
           <div css={info}>
             <div css={row}>
