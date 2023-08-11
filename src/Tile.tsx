@@ -2,9 +2,15 @@
 import { css } from "@emotion/react";
 import Piece from "./Piece";
 import { useAtom } from "jotai";
-import { boardAtom, isPlayingAtom, piecesAtom, turnAtom } from "./Atoms";
+import {
+  boardAtom,
+  canPutPositionAtom,
+  isPlayingAtom,
+  piecesAtom,
+  turnAtom,
+} from "./Atoms";
 import { PieceColor, Size } from "./Data";
-import { flip, flippable } from "./Rule";
+import { flip, flippable, getCanPutPosition } from "./Rule";
 
 interface Props {
   x: number;
@@ -17,6 +23,7 @@ function Tile({ x, y, size }: Props) {
   const [board, setBoard] = useAtom(boardAtom);
   const [isPlaying] = useAtom(isPlayingAtom);
   const [pieces, setPieces] = useAtom(piecesAtom);
+  const [canPutPosition, setCanPutPosition] = useAtom(canPutPositionAtom);
   const index = y * Size + x;
   const color = board[index];
   const setColor = (color: number) => (board[index] = color);
@@ -33,13 +40,27 @@ function Tile({ x, y, size }: Props) {
       setColor(turn);
       const newBoard = flip(board, turn, flipPos, pieces, setPieces);
       setBoard(newBoard);
-      setTurn(turn === PieceColor.Black ? PieceColor.White : PieceColor.Black);
+
+      const nextTurn =
+        turn === PieceColor.Black ? PieceColor.White : PieceColor.Black;
+      setTurn(nextTurn);
+
+      const canPutPosition = [...Array(Size * Size).fill(false)];
+      for (const index of getCanPutPosition(nextTurn, newBoard)) {
+        canPutPosition[index] = true;
+      }
+      setCanPutPosition(canPutPosition);
     }
   };
 
+  const css = [container];
+  if (canPutPosition[y * Size + x]) {
+    css.push(selected);
+  }
+
   return (
     <div
-      css={container}
+      css={css}
       style={{
         left: x * size,
         top: y * size,
@@ -63,4 +84,8 @@ const container = css`
   &:hover {
     opacity: 0.8;
   }
+`;
+
+const selected = css`
+  background: greenyellow;
 `;

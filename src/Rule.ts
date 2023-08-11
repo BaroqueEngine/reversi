@@ -4,7 +4,8 @@ export const startGame = (
   setTurn: Function,
   setBoard: Function,
   setPieces: Function,
-  setIsPlaying: Function
+  setIsPlaying: Function,
+  setCanPutPosition: Function
 ) => {
   const newBoard = [...Array(Size * Size).fill(PieceColor.None)];
   newBoard[3 * Size + 3] = PieceColor.White;
@@ -12,9 +13,16 @@ export const startGame = (
   newBoard[3 * Size + 4] = PieceColor.Black;
   newBoard[4 * Size + 3] = PieceColor.Black;
 
-  setTurn(PieceColor.Black);
+  const turn = PieceColor.Black;
+  const canPutPosition = [...Array(Size * Size).fill(false)];
+  for (const index of getCanPutPosition(turn, newBoard)) {
+    canPutPosition[index] = true;
+  }
+
+  setTurn(turn);
   setPieces([2, 2]);
   setBoard(newBoard);
+  setCanPutPosition(canPutPosition);
   setIsPlaying(true);
 };
 
@@ -77,8 +85,8 @@ export const flip = (
   return newBoard;
 };
 
-export const canPutPosition = (color: number, board: number[]): Point[] => {
-  let points: Point[] = [];
+export const getCanPutPosition = (color: number, board: number[]): number[] => {
+  let indexes: number[] = [];
 
   for (let i = 0; i < Size * Size; i++) {
     if (board[i] !== PieceColor.None) {
@@ -87,14 +95,12 @@ export const canPutPosition = (color: number, board: number[]): Point[] => {
     const x = i % Size;
     const y = Math.floor(i / Size);
 
-    points = points.concat(flippable(x, y, color, board));
+    if (flippable(x, y, color, board).length > 0) {
+      indexes = indexes.concat(i);
+    }
   }
 
-  let indexes = points.map((point) => point.y * Size + point.x);
-  indexes = Array.from(new Set(indexes));
-  return indexes.map((i) => {
-    return { x: i % Size, y: Math.floor(i / Size) };
-  });
+  return Array.from(new Set(indexes));
 };
 
 export const printBoard = (board: number[]): void => {

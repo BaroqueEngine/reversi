@@ -2,7 +2,13 @@ import { useAtom } from "jotai";
 import "./App.css";
 import Board from "./Board";
 import { startGame } from "./Rule";
-import { boardAtom, isPlayingAtom, piecesAtom, turnAtom } from "./Atoms";
+import {
+  boardAtom,
+  canPutPositionAtom,
+  isPlayingAtom,
+  piecesAtom,
+  turnAtom,
+} from "./Atoms";
 import { css } from "@emotion/react";
 import { PieceColor } from "./Data";
 /** @jsxImportSource @emotion/react */
@@ -12,6 +18,7 @@ function App() {
   const [_isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
   const [pieces, setPieces] = useAtom(piecesAtom);
   const [_turn, setTurn] = useAtom(turnAtom);
+  const [_canPutPosition, setCanPutPositionAtom] = useAtom(canPutPositionAtom);
 
   return (
     <>
@@ -39,7 +46,13 @@ function App() {
           <button
             css={startGameButton}
             onClick={() =>
-              startGame(setTurn, setBoard, setPieces, setIsPlaying)
+              startGame(
+                setTurn,
+                setBoard,
+                setPieces,
+                setIsPlaying,
+                setCanPutPositionAtom
+              )
             }
           >
             Start Game
