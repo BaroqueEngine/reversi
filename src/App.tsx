@@ -102,7 +102,7 @@ function App() {
               <div>{getCanPutPosition(PieceColor.White, board).length}</div>
               <div>{getCanPutPosition(PieceColor.Black, board).length}</div>
             </div>
-            <div>{isResult && getResultColor(board)}</div>
+            <div css={result}>{isResult && getResultColor(board)}</div>
           </div>
         </div>
         <div className="right">
@@ -144,4 +144,8 @@ const startGameButton = css`
 
 const info = css`
   margin-top: 40px;
+`;
+
+const result = css`
+  margin-top: 15px;
 `;
