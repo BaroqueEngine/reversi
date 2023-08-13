@@ -1,7 +1,13 @@
 import { useAtom } from "jotai";
 import "./App.css";
 import Board from "./Board";
-import { changeTurn, getCanPutPosition, startGame } from "./Rule";
+import {
+  changeTurn,
+  getCanPutPosition,
+  oppColor,
+  resultGame,
+  startGame,
+} from "./Rule";
 import {
   boardAtom,
   canPutPositionAtom,
@@ -16,7 +22,7 @@ import { PieceColor } from "./Data";
 
 function App() {
   const [board, setBoard] = useAtom(boardAtom);
-  const [_isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
+  const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
   const [pieces, setPieces] = useAtom(piecesAtom);
   const [turn, setTurn] = useAtom(turnAtom);
   const [_canPutPosition, setCanPutPosition] = useAtom(canPutPositionAtom);
@@ -59,15 +65,21 @@ function App() {
           >
             Start Game
           </button>
-          <button
-            css={startGameButton}
-            onClick={() => {
-              setPassCount(passCount + 1);
-              changeTurn(board, turn, setTurn, setCanPutPosition);
-            }}
-          >
-            PASS
-          </button>
+          {isPlaying && getCanPutPosition(turn, board).length === 0 && (
+            <button
+              css={startGameButton}
+              onClick={() => {
+                setPassCount(passCount + 1);
+                if (passCount === 1) {
+                  resultGame(setIsPlaying);
+                } else {
+                  changeTurn(board, turn, setTurn, setCanPutPosition);
+                }
+              }}
+            >
+              PASS
+            </button>
+          )}
           <div css={info}>
             <div css={row}>
               <div></div>

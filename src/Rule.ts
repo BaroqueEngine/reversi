@@ -126,6 +126,10 @@ export const changeTurn = (
   setCanPutPosition(canPutPosition);
 };
 
+export const resultGame = (setIsPlaying: Function) => {
+  setIsPlaying(false);
+};
+
 export const printBoard = (board: number[]): void => {
   const colors = ["_", "#", "."];
   for (let y = 0; y < Size; y++) {
