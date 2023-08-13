@@ -4,7 +4,7 @@ import Board from "./Board";
 import {
   changeTurn,
   getCanPutPosition,
-  oppColor,
+  getResultColor,
   resultGame,
   startGame,
 } from "./Rule";
@@ -12,6 +12,7 @@ import {
   boardAtom,
   canPutPositionAtom,
   isPlayingAtom,
+  isResultAtom,
   passCountAtom,
   piecesAtom,
   turnAtom,
@@ -23,6 +24,7 @@ import { PieceColor } from "./Data";
 function App() {
   const [board, setBoard] = useAtom(boardAtom);
   const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
+  const [isResult, setIsResult] = useAtom(isResultAtom);
   const [pieces, setPieces] = useAtom(piecesAtom);
   const [turn, setTurn] = useAtom(turnAtom);
   const [_canPutPosition, setCanPutPosition] = useAtom(canPutPositionAtom);
@@ -59,6 +61,7 @@ function App() {
                 setBoard,
                 setPieces,
                 setIsPlaying,
+                setIsResult,
                 setCanPutPosition
               )
             }
@@ -71,7 +74,7 @@ function App() {
               onClick={() => {
                 setPassCount(passCount + 1);
                 if (passCount === 1) {
-                  resultGame(setIsPlaying);
+                  resultGame(setIsPlaying, setIsResult);
                 } else {
                   changeTurn(board, turn, setTurn, setCanPutPosition);
                 }
@@ -99,6 +102,7 @@ function App() {
               <div>{getCanPutPosition(PieceColor.White, board).length}</div>
               <div>{getCanPutPosition(PieceColor.Black, board).length}</div>
             </div>
+            <div>{isResult && getResultColor(board)}</div>
           </div>
         </div>
         <div className="right">

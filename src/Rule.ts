@@ -5,6 +5,7 @@ export const startGame = (
   setBoard: Function,
   setPieces: Function,
   setIsPlaying: Function,
+  setIsResult: Function,
   setCanPutPosition: Function
 ) => {
   const newBoard = [...Array(Size * Size).fill(PieceColor.None)];
@@ -24,6 +25,7 @@ export const startGame = (
   setBoard(newBoard);
   setCanPutPosition(canPutPosition);
   setIsPlaying(true);
+  setIsResult(false);
 };
 
 export const onBoard = (x: number, y: number): boolean => {
@@ -126,8 +128,28 @@ export const changeTurn = (
   setCanPutPosition(canPutPosition);
 };
 
-export const resultGame = (setIsPlaying: Function) => {
+export const resultGame = (
+  setIsPlaying: Function,
+  setIsResult: Function
+): void => {
   setIsPlaying(false);
+  setIsResult(true);
+};
+
+export const getResultColor = (board: number[]): string => {
+  let pieces: number[] = [0, 0, 0];
+
+  for (let i = 0; i < Size * Size; i++) {
+    pieces[board[i]]++;
+  }
+
+  if (pieces[PieceColor.White] === pieces[PieceColor.Black]) {
+    return "Draw";
+  } else if (pieces[PieceColor.White] > pieces[PieceColor.Black]) {
+    return "Win White";
+  } else {
+    return "Win Black";
+  }
 };
 
 export const printBoard = (board: number[]): void => {
