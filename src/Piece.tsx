@@ -2,11 +2,11 @@
 import { css } from "@emotion/react";
 import { Colors } from "./Data";
 
-type Prop = {
+type Props = {
   value: number;
 };
 
-function Piece({ value }: Prop) {
+function Piece({ value }: Props) {
   return <div css={container} style={{ backgroundColor: Colors[value] }}></div>;
 }
 
