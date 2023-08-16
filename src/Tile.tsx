@@ -10,7 +10,6 @@ import {
   piecesAtom,
   turnAtom,
 } from "./Atoms";
-import { PieceColor } from "./Data";
 import { changeTurn, flip, flippable, pointToIndex } from "./Rule";
 
 interface Props {
@@ -33,9 +32,10 @@ function Tile({ x, y, size }: Props) {
     if (!isPlaying) {
       return;
     }
-    if (color !== PieceColor.None) {
+    if (color !== "none") {
       return;
     }
+
     const flipPos = flippable(x, y, turn, board);
     if (flipPos.length > 0) {
       board[index] = turn;

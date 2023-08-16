@@ -18,7 +18,7 @@ import {
   turnAtom,
 } from "./Atoms";
 import { css } from "@emotion/react";
-import { PieceColor } from "./Data";
+import { AllPieceType } from "./Data";
 /** @jsxImportSource @emotion/react */
 
 function App() {
@@ -93,14 +93,14 @@ function App() {
             <div css={row}>
               <div>Pieces</div>
               <div>&gt;</div>
-              <div>{pieces[PieceColor.White]}</div>
-              <div>{pieces[PieceColor.Black]}</div>
+              <div>{pieces["white"]}</div>
+              <div>{pieces["black"]}</div>
             </div>
             <div css={row}>
               <div>Mobility</div>
               <div>&gt;</div>
-              <div>{getCanPutPosition(PieceColor.White, board).length}</div>
-              <div>{getCanPutPosition(PieceColor.Black, board).length}</div>
+              <div>{getCanPutPosition("white", board).length}</div>
+              <div>{getCanPutPosition("black", board).length}</div>
             </div>
             <div css={result}>{isResult && getResultColor(board)}</div>
           </div>

@@ -1,9 +1,10 @@
-export const PieceColor = {
-  Black: 0,
-  White: 1,
-  None: 2,
+export type PieceType = "black" | "white";
+export type AllPieceType = PieceType | "none";
+export const Colors: { [key in AllPieceType]: string } = {
+  black: "black",
+  white: "white",
+  none: "transparent",
 };
-export const Colors = ["black", "white", "transparent"];
 export const Size = 8;
 export type Point = {
   x: number;

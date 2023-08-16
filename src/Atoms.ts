@@ -1,14 +1,17 @@
 import { atom } from "jotai";
-import { PieceColor, Size } from "./Data";
+import { AllPieceType, PieceType, Size } from "./Data";
 
-export const turnAtom = atom<number>(PieceColor.Black);
-export const boardAtom = atom<number[]>([
-  ...Array(Size * Size).fill(PieceColor.None),
+export const turnAtom = atom<PieceType>("black");
+export const boardAtom = atom<AllPieceType[]>([
+  ...Array<AllPieceType>(Size * Size).fill("none"),
 ]);
 export const isPlayingAtom = atom<boolean>(false);
 export const isResultAtom = atom<boolean>(false);
-export const piecesAtom = atom<number[]>([0, 0]);
+export const piecesAtom = atom<{ [key in PieceType]: number }>({
+  black: 0,
+  white: 0,
+});
 export const canPutPositionAtom = atom<boolean[]>([
-  ...Array(Size * Size).fill(false),
+  ...Array<boolean>(Size * Size).fill(false),
 ]);
 export const passCountAtom = atom<number>(0);

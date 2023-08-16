@@ -1,27 +1,29 @@
-import { PieceColor, Point, Size } from "./Data";
+import { AllPieceType, PieceType, Point, Size } from "./Data";
 
 export const startGame = (
-  setTurn: (_: number) => void,
-  setBoard: (_: number[]) => void,
-  setPieces: (_: number[]) => void,
+  setTurn: (_: PieceType) => void,
+  setBoard: (_: AllPieceType[]) => void,
+  setPieces: (_: { [key in PieceType]: number }) => void,
   setIsPlaying: (_: boolean) => void,
   setIsResult: (_: boolean) => void,
   setCanPutPosition: (_: boolean[]) => void
 ) => {
-  const newBoard: number[] = [...Array(Size * Size).fill(PieceColor.None)];
-  newBoard[pointToIndex({ x: 3, y: 3 })] = PieceColor.White;
-  newBoard[pointToIndex({ x: 4, y: 4 })] = PieceColor.White;
-  newBoard[pointToIndex({ x: 3, y: 4 })] = PieceColor.Black;
-  newBoard[pointToIndex({ x: 4, y: 3 })] = PieceColor.Black;
+  const newBoard: AllPieceType[] = [
+    ...Array<AllPieceType>(Size * Size).fill("none"),
+  ];
+  newBoard[pointToIndex({ x: 3, y: 3 })] = "white";
+  newBoard[pointToIndex({ x: 4, y: 4 })] = "white";
+  newBoard[pointToIndex({ x: 3, y: 4 })] = "black";
+  newBoard[pointToIndex({ x: 4, y: 3 })] = "black";
 
-  const turn = PieceColor.Black;
+  const turn = "black";
   const canPutPosition: boolean[] = [...Array(Size * Size).fill(false)];
   for (const index of getCanPutPosition(turn, newBoard)) {
     canPutPosition[index] = true;
   }
 
   setTurn(turn);
-  setPieces([2, 2]);
+  setPieces({ black: 2, white: 2 });
   setBoard(newBoard);
   setCanPutPosition(canPutPosition);
   setIsPlaying(true);
@@ -32,8 +34,8 @@ export const onBoard = (x: number, y: number): boolean => {
   return x >= 0 && x < Size && y >= 0 && y < Size;
 };
 
-export const oppColor = (color: number): number => {
-  return color === PieceColor.White ? PieceColor.Black : PieceColor.White;
+export const oppColor = (color: PieceType): PieceType => {
+  return color === "white" ? "black" : "white";
 };
 
 export const indexToPoint = (index: number): Point => {
@@ -47,12 +49,13 @@ export const pointToIndex = (point: Point): number => {
 export const flippable = (
   x: number,
   y: number,
-  color: number,
-  board: number[]
+  color: PieceType,
+  board: AllPieceType[]
 ): Point[] => {
   const dx = [-1, 1, 0, 0, -1, 1, -1, 1];
   const dy = [0, 0, -1, 1, -1, -1, 1, 1];
-  const get = (x: number, y: number): number => board[pointToIndex({ x, y })];
+  const get = (x: number, y: number): AllPieceType =>
+    board[pointToIndex({ x, y })];
 
   let ret: Point[] = [];
   for (let i = 0; i < 8; i++) {
@@ -75,31 +78,40 @@ export const flippable = (
 };
 
 export const flip = (
-  board: number[],
-  color: number,
+  board: AllPieceType[],
+  color: PieceType,
   posGroup: Point[],
-  pieces: number[],
-  setPieces: (_: number[]) => void
-): number[] => {
+  pieces: { [key in PieceType]: number },
+  setPieces: (_: { [key in PieceType]: number }) => void
+): AllPieceType[] => {
   const newBoard = board.slice();
-  let diff: number[] = [0, 0];
-  diff[color] += 1;
+  let diff: { [key in PieceType]: number } = {
+    black: 0,
+    white: 0,
+  };
+  diff["black"] = 1;
   for (const pos of posGroup) {
     newBoard[pos.y * Size + pos.x] = color;
     diff[color] += 1;
     diff[oppColor(color)] -= 1;
   }
 
-  setPieces([pieces[0] + diff[0], pieces[1] + diff[1]]);
+  setPieces({
+    black: pieces["black"] + diff["black"],
+    white: pieces["white"] + diff["white"],
+  });
 
   return newBoard;
 };
 
-export const getCanPutPosition = (color: number, board: number[]): number[] => {
+export const getCanPutPosition = (
+  color: PieceType,
+  board: AllPieceType[]
+): number[] => {
   let indexes: number[] = [];
 
   for (let i = 0; i < Size * Size; i++) {
-    if (board[i] !== PieceColor.None) {
+    if (board[i] !== "none") {
       continue;
     }
     const { x, y } = indexToPoint(i);
@@ -113,15 +125,17 @@ export const getCanPutPosition = (color: number, board: number[]): number[] => {
 };
 
 export const changeTurn = (
-  board: number[],
-  turn: number,
-  setTurn: (_: number) => void,
+  board: AllPieceType[],
+  turn: PieceType,
+  setTurn: (_: PieceType) => void,
   setCanPutPosition: (_: boolean[]) => void
 ): void => {
   const nextTurn = oppColor(turn);
   setTurn(nextTurn);
 
-  const canPutPosition: boolean[] = [...Array(Size * Size).fill(false)];
+  const canPutPosition: boolean[] = [
+    ...Array<boolean>(Size * Size).fill(false),
+  ];
   for (const index of getCanPutPosition(nextTurn, board)) {
     canPutPosition[index] = true;
   }
@@ -136,16 +150,20 @@ export const resultGame = (
   setIsResult(true);
 };
 
-export const getResultColor = (board: number[]): string => {
-  let pieces: number[] = [0, 0, 0];
+export const getResultColor = (board: AllPieceType[]): string => {
+  let pieces: { [key in AllPieceType]: number } = {
+    black: 0,
+    white: 0,
+    none: 0,
+  };
 
   for (let i = 0; i < Size * Size; i++) {
     pieces[board[i]]++;
   }
 
-  if (pieces[PieceColor.White] === pieces[PieceColor.Black]) {
+  if (pieces["white"] === pieces["black"]) {
     return "Draw";
-  } else if (pieces[PieceColor.White] > pieces[PieceColor.Black]) {
+  } else if (pieces["white"] > pieces["black"]) {
     return "Win White";
   } else {
     return "Win Black";
