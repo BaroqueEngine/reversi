@@ -1,21 +1,21 @@
 import { PieceColor, Point, Size } from "./Data";
 
 export const startGame = (
-  setTurn: Function,
-  setBoard: Function,
-  setPieces: Function,
-  setIsPlaying: Function,
-  setIsResult: Function,
-  setCanPutPosition: Function
+  setTurn: (_: number) => void,
+  setBoard: (_: number[]) => void,
+  setPieces: (_: number[]) => void,
+  setIsPlaying: (_: boolean) => void,
+  setIsResult: (_: boolean) => void,
+  setCanPutPosition: (_: boolean[]) => void
 ) => {
-  const newBoard = [...Array(Size * Size).fill(PieceColor.None)];
+  const newBoard: number[] = [...Array(Size * Size).fill(PieceColor.None)];
   newBoard[pointToIndex({ x: 3, y: 3 })] = PieceColor.White;
   newBoard[pointToIndex({ x: 4, y: 4 })] = PieceColor.White;
   newBoard[pointToIndex({ x: 3, y: 4 })] = PieceColor.Black;
   newBoard[pointToIndex({ x: 4, y: 3 })] = PieceColor.Black;
 
   const turn = PieceColor.Black;
-  const canPutPosition = [...Array(Size * Size).fill(false)];
+  const canPutPosition: boolean[] = [...Array(Size * Size).fill(false)];
   for (const index of getCanPutPosition(turn, newBoard)) {
     canPutPosition[index] = true;
   }
@@ -79,7 +79,7 @@ export const flip = (
   color: number,
   posGroup: Point[],
   pieces: number[],
-  setPieces: Function
+  setPieces: (_: number[]) => void
 ): number[] => {
   const newBoard = board.slice();
   let diff: number[] = [0, 0];
@@ -115,13 +115,13 @@ export const getCanPutPosition = (color: number, board: number[]): number[] => {
 export const changeTurn = (
   board: number[],
   turn: number,
-  setTurn: Function,
-  setCanPutPosition: Function
+  setTurn: (_: number) => void,
+  setCanPutPosition: (_: boolean[]) => void
 ): void => {
   const nextTurn = oppColor(turn);
   setTurn(nextTurn);
 
-  const canPutPosition = [...Array(Size * Size).fill(false)];
+  const canPutPosition: boolean[] = [...Array(Size * Size).fill(false)];
   for (const index of getCanPutPosition(nextTurn, board)) {
     canPutPosition[index] = true;
   }
@@ -129,8 +129,8 @@ export const changeTurn = (
 };
 
 export const resultGame = (
-  setIsPlaying: Function,
-  setIsResult: Function
+  setIsPlaying: (_: boolean) => void,
+  setIsResult: (_: boolean) => void
 ): void => {
   setIsPlaying(false);
   setIsResult(true);
