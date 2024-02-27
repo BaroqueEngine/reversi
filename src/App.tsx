@@ -18,7 +18,6 @@ import {
   turnAtom,
 } from "./Atoms";
 import { css } from "@emotion/react";
-import { AllPieceType } from "./Data";
 /** @jsxImportSource @emotion/react */
 
 function App() {
