@@ -1,13 +1,6 @@
+import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 import "./App.css";
-import Board from "./Board";
-import {
-  changeTurn,
-  getCanPutPosition,
-  getResultColor,
-  resultGame,
-  startGame,
-} from "./Rule";
 import {
   boardAtom,
   canPutPositionAtom,
@@ -17,7 +10,14 @@ import {
   piecesAtom,
   turnAtom,
 } from "./Atoms";
-import { css } from "@emotion/react";
+import Board from "./Board";
+import {
+  changeTurn,
+  getCanPutPosition,
+  getResultColor,
+  resultGame,
+  startGame,
+} from "./Rule";
 /** @jsxImportSource @emotion/react */
 
 function App() {
@@ -37,22 +37,23 @@ function App() {
           <div>
             <div css={rowSelect}>
               <div>
-                <button>HUMAN</button>
+                <button type="button">HUMAN</button>
               </div>
               <div>
-                <button>HUMAN</button>
+                <button type="button">HUMAN</button>
               </div>
             </div>
             <div css={rowSelect}>
               <div>
-                <button>COM</button>
+                <button type="button">COM</button>
               </div>
               <div>
-                <button>COM</button>
+                <button type="button">COM</button>
               </div>
             </div>
           </div>
           <button
+            type="button"
             css={startGameButton}
             onClick={() =>
               startGame(
@@ -61,7 +62,7 @@ function App() {
                 setPieces,
                 setIsPlaying,
                 setIsResult,
-                setCanPutPosition
+                setCanPutPosition,
               )
             }
           >
@@ -69,6 +70,7 @@ function App() {
           </button>
           {isPlaying && getCanPutPosition(turn, board).length === 0 && (
             <button
+              type="button"
               css={startGameButton}
               onClick={() => {
                 setPassCount(passCount + 1);
@@ -84,16 +86,16 @@ function App() {
           )}
           <div css={info}>
             <div css={row}>
-              <div></div>
-              <div></div>
+              <div />
+              <div />
               <div>WHITE</div>
               <div>BLACK</div>
             </div>
             <div css={row}>
               <div>Pieces</div>
               <div>&gt;</div>
-              <div>{pieces["white"]}</div>
-              <div>{pieces["black"]}</div>
+              <div>{pieces.white}</div>
+              <div>{pieces.black}</div>
             </div>
             <div css={row}>
               <div>Mobility</div>

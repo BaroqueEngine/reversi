@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import Piece from "./Piece";
 import { useAtom } from "jotai";
 import {
   boardAtom,
@@ -10,6 +9,7 @@ import {
   piecesAtom,
   turnAtom,
 } from "./Atoms";
+import Piece from "./Piece";
 import { changeTurn, flip, flippable, pointToIndex } from "./Rule";
 
 interface Props {
