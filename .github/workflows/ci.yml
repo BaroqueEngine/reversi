@@ -1,10 +1,11 @@
-name: Code quality
+name: CI
 
 on:
   push:
 
 jobs:
-  quality:
+  biome:
+    name: "Biome"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,7 +17,7 @@ jobs:
       - name: Run Biome
         run: biome ci ./src/
   unit-test:
-    name: Unit Test
+    name: "ユニットテスト"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
