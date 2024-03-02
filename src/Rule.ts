@@ -89,7 +89,9 @@ export const flip = (
     black: 0,
     white: 0,
   };
-  diff.black = 1;
+
+  diff[color] = 1;
+
   for (const pos of posGroup) {
     newBoard[pos.y * Size + pos.x] = color;
     diff[color] += 1;
