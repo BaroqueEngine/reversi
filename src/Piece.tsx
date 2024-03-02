@@ -7,7 +7,7 @@ type Props = {
 };
 
 function Piece({ value }: Props) {
-  return <div css={container} style={{ backgroundColor: Colors[value] }}></div>;
+  return <div css={container} style={{ backgroundColor: Colors[value] }} />;
 }
 
 export default Piece;
