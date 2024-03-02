@@ -9,7 +9,14 @@ function Board() {
       <div style={{ position: "relative" }}>
         {[...Array(SIZE * SIZE)].map((_, i) => {
           const { x, y } = indexToPoint(i);
-          return <Tile key={i} x={x} y={y} size={45}></Tile>;
+          return (
+            <Tile
+              key={`${x.toString()}_${y.toString()}`}
+              x={x}
+              y={y}
+              size={45}
+            />
+          );
         })}
       </div>
     </>
