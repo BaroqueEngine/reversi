@@ -15,3 +15,4 @@ export const canPutPositionAtom = atom<boolean[]>([
   ...Array<boolean>(Size * Size).fill(false),
 ]);
 export const passCountAtom = atom<number>(0);
+export const selectPlayerAtom = atom<boolean[]>([...Array(2).fill(true)]);
