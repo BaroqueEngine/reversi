@@ -8,6 +8,7 @@ import {
   isResultAtom,
   passCountAtom,
   piecesAtom,
+  selectPlayerAtom,
   turnAtom,
 } from "./Atoms";
 import Board from "./Board";
@@ -18,6 +19,7 @@ import {
   resultGame,
   startGame,
 } from "./Rule";
+import SelectPlayer from "./SelectPlayer";
 /** @jsxImportSource @emotion/react */
 
 function App() {
@@ -28,6 +30,7 @@ function App() {
   const [turn, setTurn] = useAtom(turnAtom);
   const [_canPutPosition, setCanPutPosition] = useAtom(canPutPositionAtom);
   const [passCount, setPassCount] = useAtom(passCountAtom);
+  const [selectPlayer, setSelectPlayer] = useAtom(selectPlayerAtom);
 
   return (
     <>
@@ -36,20 +39,20 @@ function App() {
           <h1 css={title}>Reversi</h1>
           <div>
             <div css={rowSelect}>
-              <div>
-                <button type="button">HUMAN</button>
-              </div>
-              <div>
-                <button type="button">HUMAN</button>
-              </div>
+              <SelectPlayer
+                label="1P"
+                selectPlayer={selectPlayer}
+                setSelectPlayer={setSelectPlayer}
+                selectPlayerIndex={0}
+              />
             </div>
             <div css={rowSelect}>
-              <div>
-                <button type="button">COM</button>
-              </div>
-              <div>
-                <button type="button">COM</button>
-              </div>
+              <SelectPlayer
+                label="2P"
+                selectPlayer={selectPlayer}
+                setSelectPlayer={setSelectPlayer}
+                selectPlayerIndex={1}
+              />
             </div>
           </div>
           <button
@@ -127,7 +130,7 @@ const row = css`
 
 const rowSelect = css`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0.5fr 1fr 1fr;
   column-gap: 10px;
   margin-top: 10px;
 
