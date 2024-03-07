@@ -1,26 +1,27 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { PieceType } from "./Data";
 
 type Props = {
   label: string;
-  selectPlayer: boolean[];
-  setSelectPlayer: (_: boolean[]) => void;
-  selectPlayerIndex: number;
+  isPlayerHuman: { [key in PieceType]: boolean };
+  setIsPlayerHuman: (_: { [key in PieceType]: boolean }) => void;
+  color: PieceType;
 };
 
 function SelectPlayer({
   label,
-  selectPlayer,
-  setSelectPlayer,
-  selectPlayerIndex,
+  isPlayerHuman,
+  setIsPlayerHuman,
+  color,
 }: Props) {
   function onSelectPlayer(
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) {
     const select = event.currentTarget.value === "human";
-    const newSelectPlayser = selectPlayer.slice();
-    newSelectPlayser[selectPlayerIndex] = select;
-    setSelectPlayer(newSelectPlayser);
+    const newSelectPlayer = { ...isPlayerHuman };
+    newSelectPlayer[color] = select;
+    setIsPlayerHuman(newSelectPlayer);
   }
 
   return (
@@ -32,9 +33,7 @@ function SelectPlayer({
           value="human"
           onClick={(event) => onSelectPlayer(event)}
           style={{
-            borderColor: selectPlayer[selectPlayerIndex]
-              ? "#dddddd"
-              : "#6b6b6b",
+            borderColor: isPlayerHuman[color] ? "#dddddd" : "#6b6b6b",
           }}
           css={button}
         >
@@ -47,9 +46,7 @@ function SelectPlayer({
           value="cpu"
           onClick={(event) => onSelectPlayer(event)}
           style={{
-            borderColor: !selectPlayer[selectPlayerIndex]
-              ? "#dddddd"
-              : "#6b6b6b",
+            borderColor: !isPlayerHuman[color] ? "#dddddd" : "#6b6b6b",
           }}
           css={button}
         >

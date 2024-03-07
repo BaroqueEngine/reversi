@@ -4,11 +4,11 @@ import "./App.css";
 import {
   boardAtom,
   canPutPositionAtom,
+  isPlayerHumanAtom,
   isPlayingAtom,
   isResultAtom,
   passCountAtom,
   piecesAtom,
-  selectPlayerAtom,
   turnAtom,
 } from "./Atoms";
 import Board from "./Board";
@@ -30,7 +30,7 @@ function App() {
   const [turn, setTurn] = useAtom(turnAtom);
   const [_canPutPosition, setCanPutPosition] = useAtom(canPutPositionAtom);
   const [passCount, setPassCount] = useAtom(passCountAtom);
-  const [selectPlayer, setSelectPlayer] = useAtom(selectPlayerAtom);
+  const [isPlayerHuman, setIsPlayerHuman] = useAtom(isPlayerHumanAtom);
 
   return (
     <>
@@ -41,17 +41,17 @@ function App() {
             <div css={rowSelect}>
               <SelectPlayer
                 label="1P"
-                selectPlayer={selectPlayer}
-                setSelectPlayer={setSelectPlayer}
-                selectPlayerIndex={0}
+                isPlayerHuman={isPlayerHuman}
+                setIsPlayerHuman={setIsPlayerHuman}
+                color={"black"}
               />
             </div>
             <div css={rowSelect}>
               <SelectPlayer
                 label="2P"
-                selectPlayer={selectPlayer}
-                setSelectPlayer={setSelectPlayer}
-                selectPlayerIndex={1}
+                isPlayerHuman={isPlayerHuman}
+                setIsPlayerHuman={setIsPlayerHuman}
+                color={"white"}
               />
             </div>
           </div>
@@ -66,6 +66,9 @@ function App() {
                 setIsPlaying,
                 setIsResult,
                 setCanPutPosition,
+                setPassCount,
+                pieces,
+                isPlayerHuman,
               )
             }
           >

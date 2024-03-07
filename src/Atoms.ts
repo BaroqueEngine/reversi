@@ -15,4 +15,8 @@ export const canPutPositionAtom = atom<boolean[]>([
   ...Array<boolean>(Size * Size).fill(false),
 ]);
 export const passCountAtom = atom<number>(0);
-export const selectPlayerAtom = atom<boolean[]>([...Array(2).fill(true)]);
+
+export const isPlayerHumanAtom = atom<{ [key in PieceType]: boolean }>({
+  black: true,
+  white: true,
+});
