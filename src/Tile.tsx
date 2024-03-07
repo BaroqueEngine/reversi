@@ -25,8 +25,8 @@ function Tile({ x, y, size }: Props) {
   const [isPlaying] = useAtom(isPlayingAtom);
   const [pieces, setPieces] = useAtom(piecesAtom);
   const [canPutPosition, setCanPutPosition] = useAtom(canPutPositionAtom);
-  const [_passCount, setPassCount] = useAtom(passCountAtom);
-  const [isPlayerHuman, _setIsPlayerHuman] = useAtom(isPlayerHumanAtom);
+  const [, setPassCount] = useAtom(passCountAtom);
+  const [isPlayerHuman] = useAtom(isPlayerHumanAtom);
   const index = pointToIndex({ x, y });
   const color = board[index];
 

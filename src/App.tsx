@@ -28,7 +28,7 @@ function App() {
   const [isResult, setIsResult] = useAtom(isResultAtom);
   const [pieces, setPieces] = useAtom(piecesAtom);
   const [turn, setTurn] = useAtom(turnAtom);
-  const [_canPutPosition, setCanPutPosition] = useAtom(canPutPositionAtom);
+  const [, setCanPutPosition] = useAtom(canPutPositionAtom);
   const [passCount, setPassCount] = useAtom(passCountAtom);
   const [isPlayerHuman, setIsPlayerHuman] = useAtom(isPlayerHumanAtom);
 
