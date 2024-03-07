@@ -4,6 +4,7 @@ import { useAtom } from "jotai";
 import {
   boardAtom,
   canPutPositionAtom,
+  isPlayerHumanAtom,
   isPlayingAtom,
   passCountAtom,
   piecesAtom,
@@ -25,11 +26,15 @@ function Tile({ x, y, size }: Props) {
   const [pieces, setPieces] = useAtom(piecesAtom);
   const [canPutPosition, setCanPutPosition] = useAtom(canPutPositionAtom);
   const [_passCount, setPassCount] = useAtom(passCountAtom);
+  const [isPlayerHuman, _setIsPlayerHuman] = useAtom(isPlayerHumanAtom);
   const index = pointToIndex({ x, y });
   const color = board[index];
 
   const onClickHandler = () => {
     if (!isPlaying) {
+      return;
+    }
+    if (!isPlayerHuman[turn]) {
       return;
     }
     if (color !== "none") {
