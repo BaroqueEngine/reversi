@@ -66,6 +66,9 @@ function App() {
                 setIsPlaying,
                 setIsResult,
                 setCanPutPosition,
+                setPassCount,
+                pieces,
+                isPlayerHuman,
               )
             }
           >

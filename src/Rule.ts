@@ -1,4 +1,5 @@
 import { AllPieceType, PieceType, Point, Size } from "./Data";
+import { think } from "./cpu";
 
 export const startGame = (
   setTurn: (_: PieceType) => void,
@@ -7,6 +8,9 @@ export const startGame = (
   setIsPlaying: (_: boolean) => void,
   setIsResult: (_: boolean) => void,
   setCanPutPosition: (_: boolean[]) => void,
+  setPassCount: (_: number) => void,
+  pieces: { [key in PieceType]: number },
+  isPlayerHuman: { [key in PieceType]: boolean },
 ) => {
   const newBoard: AllPieceType[] = [
     ...Array<AllPieceType>(Size * Size).fill("none"),
@@ -28,6 +32,21 @@ export const startGame = (
   setCanPutPosition(canPutPosition);
   setIsPlaying(true);
   setIsResult(false);
+
+  console.log(isPlayerHuman);
+
+  if (!isPlayerHuman[turn]) {
+    think(
+      turn,
+      newBoard,
+      setBoard,
+      pieces,
+      setPieces,
+      setPassCount,
+      setTurn,
+      setCanPutPosition,
+    );
+  }
 };
 
 export const onBoard = (x: number, y: number): boolean => {
