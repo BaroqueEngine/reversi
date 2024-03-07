@@ -33,8 +33,6 @@ export const startGame = (
   setIsPlaying(true);
   setIsResult(false);
 
-  console.log(isPlayerHuman);
-
   if (!isPlayerHuman[turn]) {
     think(
       turn,
