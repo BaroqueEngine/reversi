@@ -18,9 +18,9 @@ function SelectPlayer({
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) {
     const select = event.currentTarget.value === "human";
-    const newSelectPlayser = selectPlayer.slice();
-    newSelectPlayser[selectPlayerIndex] = select;
-    setSelectPlayer(newSelectPlayser);
+    const newSelectPlayer = selectPlayer.slice();
+    newSelectPlayer[selectPlayerIndex] = select;
+    setSelectPlayer(newSelectPlayer);
   }
 
   return (
