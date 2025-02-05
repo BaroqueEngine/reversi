@@ -1,4 +1,4 @@
-import { AllPieceType, PieceType, Point, Size } from "./Data";
+import { type AllPieceType, type PieceType, type Point, Size } from "./Data";
 import { think } from "./cpu";
 
 export const startGame = (
