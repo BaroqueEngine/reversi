@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { AllPieceType, PieceType, Size } from "./Data";
+import { type AllPieceType, type PieceType, Size } from "./Data";
 
 export const turnAtom = atom<PieceType>("black");
 export const boardAtom = atom<AllPieceType[]>([

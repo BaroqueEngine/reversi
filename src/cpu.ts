@@ -1,4 +1,4 @@
-import { AllPieceType, PieceType } from "./Data";
+import type { AllPieceType, PieceType } from "./Data";
 import {
   changeTurn,
   flip,

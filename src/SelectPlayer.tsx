@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { PieceType } from "./Data";
+import type { PieceType } from "./Data";
 
 type Props = {
   label: string;

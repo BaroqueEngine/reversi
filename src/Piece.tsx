@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { AllPieceType, Colors } from "./Data";
+import { type AllPieceType, Colors } from "./Data";
 
 type Props = {
   value: AllPieceType;
